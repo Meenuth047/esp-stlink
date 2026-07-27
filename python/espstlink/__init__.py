@@ -5,7 +5,7 @@ import os
 stlink = None
 
 for location in [
-  os.path.join(os.path.dirname(__file__), "..", "..", "lib", "libespstlink.so"),
+  os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "lib", "libespstlink.so")),
   os.path.join(os.path.dirname(__file__), "libespstlink.so"),
   "libespstlink.so"]:
   try:
