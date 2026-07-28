@@ -66,7 +66,7 @@ class STLink(object):
     self.write(0x7f80, 0xA0)
     if reset:
       self.reset(0)
-    time.sleep(0.001)
+    time.sleep(0.002)
 
   def swim_entry(self):
     """Starts a swim session (without reset)."""

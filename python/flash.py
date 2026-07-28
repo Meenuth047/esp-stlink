@@ -13,14 +13,15 @@ class Flasher(object):
 
   def write_segment(self, addr: int, data: bytes):
     """Writes a continuous segment of data to a destination address."""
-    # fill in incomplete blocks if necessary
+    # fill in incomplete blocks with 0x00 (STM8 erased flash state).
+    # Avoids SWIM ROTF reads which can fail mid-stream for large reads.
     missing = addr & 0x3F
     if missing != 0:
       addr -= missing
-      data = self.dev.read_bytes(addr, missing) + data
+      data = bytes(missing) + data
     missing = len(data) & 0x3F
     if missing != 0:
-      data += self.dev.read_bytes(addr + len(data), 0x40 - missing)
+      data += bytes(0x40 - missing)
 
     for offset in range(0, len(data), 0x40):
       print('.', end='', flush=True)
