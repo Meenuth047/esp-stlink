@@ -6,7 +6,7 @@ from espstlink.debugger import Debugger
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-d", "--device", default='/dev/ttyUSB0',
+parser.add_argument("-d", "--device", default='/dev/ttyUSB1',
                     help="The serial device the HC is connected to")
 args = parser.parse_args()
 

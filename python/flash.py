@@ -37,7 +37,7 @@ class Flasher(object):
 if __name__ == '__main__':
   import argparse
   parser = argparse.ArgumentParser()
-  parser.add_argument("-d", "--device", default='/dev/ttyUSB0',
+  parser.add_argument("-d", "--device", default='/dev/ttyUSB2',
                     help="The serial device the HC is connected to")
   parser.add_argument("-s", "--stall", action='store_true',
                     help="Keep the CPU stalled after flashing")
@@ -59,5 +59,5 @@ if __name__ == '__main__':
   else:
     raise RuntimeError("No --ihx nor --bin file specified for flashing.")
 
-  if not args.stall:
-    Debugger(f.dev).cont()
+  # if not args.stall:
+  #   Debugger(f.dev).cont()
