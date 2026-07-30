@@ -46,7 +46,7 @@ class STLinkException(Exception):
       code = self.code, message=error.message, data=self.data))
 
 class STLink(object):
-  def __init__(self, tty: bytes=b"/dev/ttyUSB0"):
+  def __init__(self, tty: bytes=b"/dev/ttyUSB1"):
     self.pgm = stlink.espstlink_open(tty)
     if not self.pgm:
         raise STLinkException()

@@ -38,7 +38,7 @@ make flash
 
 Grap the latest `esp-stlink-firmware.tgz` from the releases page and flash it using:
 
-    esptool --baud 460800 --port /dev/ttyUSB0 write_flash \
+    esptool --baud 460800 --port /dev/ttyUSB1 write_flash \
         0x00000 firmware/0x00000.bin \
         0x10000 firmware/0x10000.bin
 
@@ -76,7 +76,7 @@ You need to build `libespstlink.so` first by running:
 
 Easiest is to use the python tool (only works with STM8S not STM8L for now):
 
-    python3 python/flash.py -d /dev/ttyUSB0 -i sample.ihx
+    python3 python/flash.py -d /dev/ttyUSB1 -i sample.ihx
 
 ## Using ESP-STLINK with stm8flash
 

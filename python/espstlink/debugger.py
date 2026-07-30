@@ -38,10 +38,10 @@ class Debugger(object):
     self.DM_CSR2 = register.Register(stlink, 'DM_CSR2', 0x7F99, {'SWBKE': 5, 'SWBKF': 4, 'STALL': 3, 'FLUSH': 0})
 
   def pause(self):
-    self.DM_CSR2['STALL'] = 1
+    self.DM_CSR2.stlink.write(0x7F99, 0x02)  # STALL=1 (direct write)
     
   def cont(self):
-    self.DM_CSR2['STALL'] = 0
+    self.DM_CSR2.stlink.write(0x7F99, 0x00)  # STALL=0 (direct write)
   
   def step(self):
     """Returns true if the device was stopped due to the step instruction."""
