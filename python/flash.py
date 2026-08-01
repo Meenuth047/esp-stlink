@@ -37,7 +37,7 @@ class Flasher(object):
 if __name__ == '__main__':
   import argparse
   parser = argparse.ArgumentParser()
-  parser.add_argument("-d", "--device", default='/dev/ttyUSB2',
+  parser.add_argument("-d", "--device", default='/dev/ttyUSB3',
                     help="The serial device the HC is connected to")
   parser.add_argument("-s", "--stall", action='store_true',
                     help="Keep the CPU stalled after flashing")

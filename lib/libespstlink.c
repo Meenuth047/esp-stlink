@@ -61,7 +61,7 @@ static void set_error(int code, char *format, ...) {
 espstlink_t *espstlink_open(const char *device) {
   struct termios tty;
   memset(&tty, 0, sizeof tty);
-  const char *dev = device == NULL ? "/dev/ttyUSB0" : device;
+  const char *dev = device == NULL ? "/dev/ttyUSB3" : device;
 
   int fd = open(dev, O_RDWR | O_NOCTTY);
   if (fd < 0) {
