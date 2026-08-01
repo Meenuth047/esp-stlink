@@ -99,7 +99,22 @@ espstlink_t *espstlink_open(const char *device) {
   espstlink_t *pgm = malloc(sizeof(espstlink_t));
   pgm->version = -1;
   pgm->fd = fd;
-  
+
+  // Drain any stale bytes (e.g. ESP8266 boot log or stuck responses)
+  {
+    uint8_t drain_buf[256];
+    struct timeval tv;
+    fd_set fds;
+    int drained = 0;
+    do {
+      FD_ZERO(&fds); FD_SET(fd, &fds);
+      tv.tv_sec = 0; tv.tv_usec = 30000; // 30ms
+      drained = select(fd + 1, &fds, NULL, NULL, &tv);
+      if (drained > 0) read(fd, drain_buf, sizeof(drain_buf));
+    } while (drained > 0);
+    tcflush(fd, TCIFLUSH);
+  }
+
   if (!espstlink_fetch_version(pgm)) {
     // older versions used slower serial speed. try again with that one.
     cfsetospeed(&tty, (speed_t)B115200);
@@ -111,7 +126,22 @@ espstlink_t *espstlink_open(const char *device) {
       espstlink_close(pgm);
       return NULL;
     }
-    
+
+    // Drain again after baud switch
+    {
+      uint8_t drain_buf[256];
+      struct timeval tv;
+      fd_set fds;
+      int drained = 0;
+      do {
+        FD_ZERO(&fds); FD_SET(fd, &fds);
+        tv.tv_sec = 0; tv.tv_usec = 30000;
+        drained = select(fd + 1, &fds, NULL, NULL, &tv);
+        if (drained > 0) read(fd, drain_buf, sizeof(drain_buf));
+      } while (drained > 0);
+      tcflush(fd, TCIFLUSH);
+    }
+
     if (!espstlink_fetch_version(pgm)) {
       espstlink_close(pgm);
       return NULL;

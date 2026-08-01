@@ -53,7 +53,7 @@
 #define WSR_PS(w) __asm__ __volatile__("wsr %0,ps ; esync" ::"a"(w) : "memory")
 #define MICROS_TO_CYCLES(x) (x * 80)
 
-static uint32_t TIMEOUT = 0x7FF;
+static uint32_t TIMEOUT = 0xFFFF;
 
 /** Disable all interrupts. Used for timing-critical parts. */
 static inline uint32_t esp8266_enter_critical() {
@@ -181,7 +181,7 @@ static int read_byte() {
   uint32_t parity = 0;
   uint32_t i;
   for (i = 0; i < 9; i++) {
-    sync_ccount(next + 18 * SWIM_CLOCK);
+    sync_ccount(next + 13 * SWIM_CLOCK);
     int bit = read_bit(&next);
     if (bit == SWIM_ERROR_READ_BIT_TIMEOUT) {
       // indicate which bit failed (for debugging)
